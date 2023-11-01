@@ -1,11 +1,11 @@
 import { Box, Button, Container, Grid, GridItem } from '@chakra-ui/react';
 import { useState } from 'react';
-import OverviewTab from './OverviewTab';
-import JudgeTab from './JudgeTab';
-import ScheduleTab from './ScheduleTab';
-import DiscussTab from './DiscussTab';
+import OverviewTab from '../../../components/pages/hackathon/hackathonId/OverviewTab';
+import JudgeTab from '../../../components/pages/hackathon/hackathonId/JudgeTab';
+import ScheduleTab from '../../../components/pages/hackathon/hackathonId/ScheduleTab';
+import DiscussTab from '../../../components/pages/hackathon/hackathonId/DiscussTab';
 import { useDefaultLayout } from '@/hooks/useLayout';
-import BountieTab from './BountieTab';
+import BountieTab from '../../../components/pages/hackathon/hackathonId/BountieTab';
 
 const tabList = ['overview', 'judge', 'bountie', 'schedule', 'discuss'];
 
