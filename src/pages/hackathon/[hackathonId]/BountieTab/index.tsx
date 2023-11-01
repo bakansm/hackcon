@@ -13,7 +13,7 @@ import {
 	VStack,
 } from '@chakra-ui/react';
 import TrackSection from './TrackSection';
-import { dataList } from './fakedata';
+import { dataList } from '../../../../data/fakedata';
 
 const tabList = [
 	'Near Foundation',
