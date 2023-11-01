@@ -18,6 +18,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types/**/*.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types/**/*.d.ts", "src/pages/hackathon/[hackathonId]/OverviewTab/DescriptionSection.jsx", "src/components/lib/MarkdownEditor/index.tsx"],
   "exclude": ["node_modules"]
 }
