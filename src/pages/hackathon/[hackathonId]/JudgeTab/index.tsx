@@ -1,5 +1,5 @@
-import JudgeCard from '@/components/lib/JudgeCard';
 import { Grid, GridItem, Wrap } from '@chakra-ui/react';
+import JudgeCard from './JudgeCard';
 
 export default function JudgeTab() {
 	return (
