@@ -10,35 +10,41 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 import { Toaster } from '@/components/lib/Toast';
+import { ChakraProvider } from '@chakra-ui/react';
 import { useBosLoaderInitializer } from '@/hooks/useBosLoaderInitializer';
 import { useHashUrlBackwardsCompatibility } from '@/hooks/useHashUrlBackwardsCompatibility';
 import type { NextPageWithLayout } from '@/utils/types';
 
 const VmInitializer = dynamic(() => import('../components/vm/VmInitializer'), {
-  ssr: false,
+	ssr: false,
 });
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
+	Component: NextPageWithLayout;
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  useBosLoaderInitializer();
-  useHashUrlBackwardsCompatibility();
+	useBosLoaderInitializer();
+	useHashUrlBackwardsCompatibility();
 
-  const getLayout = Component.getLayout ?? ((page) => page);
+	const getLayout = Component.getLayout ?? ((page) => page);
 
-  return (
-    <>
-      <Head>
-        <link rel="icon" href="favicon.ico" />
-      </Head>
+	return (
+		<>
+			<Head>
+				<link
+					rel='icon'
+					href='favicon.ico'
+				/>
+			</Head>
 
-      <VmInitializer />
+			<VmInitializer />
 
-      {getLayout(<Component {...pageProps} />)}
-
-      <Toaster />
-    </>
-  );
+			<ChakraProvider>
+				{getLayout(<Component {...pageProps} />)}
+			</ChakraProvider>
+			
+			<Toaster />
+		</>
+	);
 }
