@@ -6,7 +6,6 @@ import {
 	FormControl,
 	FormLabel,
 	HStack,
-	Heading,
 	Input,
 	Textarea,
 	VStack,
@@ -133,6 +132,12 @@ export default function SubmitProjectTab() {
 					</FormLabel>
 					<Input type='text' />
 				</Box>
+				<Button
+					variant={'solid'}
+					colorScheme='teal'
+				>
+					Submit
+				</Button>
 			</VStack>
 		</FormControl>
 	);
