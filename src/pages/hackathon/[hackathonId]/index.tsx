@@ -14,7 +14,7 @@ import ScheduleTab from '@/components/pages/hackathon/hackathonId/ScheduleTab';
 import BountieTab from '@/components/pages/hackathon/hackathonId/BountieTab';
 import JudgeTab from '@/components/pages/hackathon/hackathonId/JudgeTab';
 import OverviewTab from '@/components/pages/hackathon/hackathonId/OverviewTab';
-import ViewSubmmitedProjectTab from '@/components/pages/hackathon/hackathonId/ViewSubmmitedProjectTab';
+import SubmmitedProjectTab from '@/components/pages/hackathon/hackathonId/SubmmitedProjectTab';
 
 const tabList = ['overview', 'judge', 'bountie', 'schedule', 'discuss'];
 
@@ -40,7 +40,7 @@ export default function HackathonDetail() {
 			case 'submit-project':
 				return <SubmitProjectTab />;
 			case 'submitted-project':
-				return <ViewSubmmitedProjectTab />;
+				return <SubmmitedProjectTab />;
 			default:
 				break;
 		}
