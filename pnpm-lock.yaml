@@ -27,7 +27,7 @@ dependencies:
     specifier: ^1.2.0
     version: 1.2.3(@near-js/accounts@0.1.4)(@near-js/crypto@0.0.4)(@near-js/keystores-browser@0.0.4)(@near-js/keystores-node@0.0.4)(@near-js/keystores@0.0.4)(@near-js/transactions@0.2.1)(@near-js/types@0.0.4)(@near-js/utils@0.0.4)(@near-js/wallet-account@0.0.6)(@near-wallet-selector/core@8.1.1)(@types/react@18.2.0)(near-api-js@2.1.3)(react-dom@18.2.0)(react@18.2.0)
   '@monaco-editor/react':
-    specifier: ^4.4.6
+    specifier: ^4.6.0
     version: 4.6.0(monaco-editor@0.44.0)(react-dom@18.2.0)(react@18.2.0)
   '@near-js/biometric-ed25519':
     specifier: 0.2.0

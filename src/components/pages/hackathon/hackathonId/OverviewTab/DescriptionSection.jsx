@@ -4,15 +4,17 @@ import { Box, Heading } from '@chakra-ui/react';
 export default function DescriptionSection() {
 	return (
 		<Box>
-			{/* <VmComponent
+			<VmComponent
 				src='discom.testnet/widget/DIG.Theme'
 				props={{
 					children: (
-						<VmComponent code={`return <div>Hello World</div>`} />
+						<VmComponent
+							code={`return (<Markdown text={'#Hello'}/>`}
+						/>
 					),
 				}}
-			/> */}
-			<VmComponent src='mob.near/widget/MarkdownEditorIframeExample' />
+			/>
+			{/* <VmComponent src='mob.near/widget/MarkdownEditorIframeExample' /> */}
 		</Box>
 	);
 }
