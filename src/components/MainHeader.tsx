@@ -1,6 +1,5 @@
 import { useSignInRedirect } from '@/hooks/useSignInRedirect';
 import { useAuthStore } from '@/stores/auth';
-import { Text } from './lib/Text';
 import {
 	Box,
 	Button,
@@ -9,6 +8,7 @@ import {
 	Container,
 	Flex,
 	Heading,
+	Text,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
@@ -27,50 +27,60 @@ export const MainHeader = () => {
 				alignItems={'center'}
 				justifyContent={'space-between'}
 			>
-				<Box
-					display={'flex'}
-					gap={'2rem'}
-				>
-					<Heading textTransform={'uppercase'}>hackcon</Heading>
+				<Heading textTransform={'uppercase'}>hackcon</Heading>
 
-					<Flex gap={'1rem'}>
-						<Button
-							variant={'link'}
-							onClick={() => router.push('/')}
-						>
-							Home
-						</Button>
-						<Button
-							variant={'link'}
-							onClick={() => router.push('/')}
-						>
-							Blog
-						</Button>
-						<Button
-							variant={'link'}
-							onClick={() => router.push('/')}
-						>
-							Event
-						</Button>
-						<Button
-							variant={'link'}
-							onClick={() => router.push('/hackathon')}
-						>
-							Hackathon
-						</Button>
-					</Flex>
-				</Box>
+				<Flex gap={'1rem'}>
+					<Button
+						variant={'link'}
+						onClick={() => router.push('/')}
+					>
+						Home
+					</Button>
+					<Button
+						variant={'link'}
+						onClick={() => router.push('/')}
+					>
+						Blog
+					</Button>
+					<Button
+						variant={'link'}
+						onClick={() => router.push('/')}
+					>
+						Event
+					</Button>
+					<Button
+						variant={'link'}
+						onClick={() => router.push('/hackathon')}
+					>
+						Hackathon
+					</Button>
+					<Button
+						variant={'link'}
+						onClick={() => router.push('/sandbox')}
+					>
+						Sandbox
+					</Button>
+				</Flex>
 
 				{signedIn ? (
-					<>
-						<Text>{accountId}</Text>
-						<button
+					<Flex gap={'1rem'}>
+						<Text
+							color='teal'
+							fontSize={'lg'}
+							fontWeight={'semibold'}
+							p={0}
+							m={0}
+						>
+							{accountId}
+						</Text>
+						<Button
 							type='button'
+							colorScheme={'blackAlpha'}
 							onClick={logOut}
 						>
 							Log Out
-						</button>
-					</>
+						</Button>
+					</Flex>
 				) : (
 					<ButtonGroup gap={'1'}>
 						<Button
