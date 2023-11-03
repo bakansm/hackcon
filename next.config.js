@@ -6,6 +6,10 @@ const nextConfig = {
 		return [];
 	},
 	rewrites: async () => [],
+	env: {
+		NEXT_PUBLIC_NETWORK_ID: process.env.NEXT_PUBLIC_NETWORK_ID,
+		NEXT_PUBLIC_HOSTNAME: process.env.NEXT_PUBLIC_HOSTNAME,
+	},
 };
 
 const removeImports = require('next-remove-imports')();

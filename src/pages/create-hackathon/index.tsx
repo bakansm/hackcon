@@ -1,11 +1,11 @@
 import { useDefaultLayout } from '@/hooks/useLayout';
 import { Button, ButtonGroup, Container, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
-import DescriptionStep from '../../components/pages/create-hackathon/DescriptionStep';
 import SponsorStep from '../../components/pages/create-hackathon/SponsorStep';
 import TrackStep from '../../components/pages/create-hackathon/TrackStep';
 import ScheduleStep from '../../components/pages/create-hackathon/ScheduleStep';
 import JudgeStep from '../../components/pages/create-hackathon/JudgeStep';
+import DescriptionStep from '@/components/pages/create-hackathon/DescriptionStep';
 
 export default function CreateHackathon() {
 	const [step, setStep] = useState<number>(1);

@@ -25,6 +25,6 @@
 		"types/**/*.d.ts",
 		"src/components/pages/hackathon/hackathonId/OverviewTab/DescriptionSection.jsx",
 		"src/components/lib/MarkdownEditor/index.tsx"
-, "src/pages/sandbox/index.jsx", "src/components/pages/Temp.jsx"	],
+, "src/pages/sandbox/index.jsx", "src/components/pages/Temp.jsx", "src/components/pages/create-hackathon/DescriptionStep/index.jsx"	],
 	"exclude": ["node_modules"]
 }

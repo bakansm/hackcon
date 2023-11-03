@@ -19,6 +19,7 @@ export default function Sandbox() {
 	const [code, setCode] = useState('return (<div>Hello World</div>)');
 
 	const handleCodeChange = (value) => {
+		console.log(value);
 		setCode(value);
 	};
 
