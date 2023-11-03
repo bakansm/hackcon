@@ -21,7 +21,7 @@ export default function CreateHackathon() {
 	const renderStep = (step: number) => {
 		switch (step) {
 			case 1:
-				return <DescriptionStep />;
+				return <ScheduleStep />;
 			case 2:
 				return <SponsorStep />;
 			case 3:
@@ -29,7 +29,7 @@ export default function CreateHackathon() {
 			case 4:
 				return <JudgeStep />;
 			case 5:
-				return <ScheduleStep />;
+				return <DescriptionStep />;
 			default:
 				break;
 		}
