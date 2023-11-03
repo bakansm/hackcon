@@ -67,7 +67,7 @@ export default function Sandbox() {
 							overflowX={'hidden'}
 						>
 							<VmComponent
-								src='discom.testnet/widget/DIG.Theme'
+								src='near/widget/DIG.Theme'
 								props={{
 									children: <VmComponent code={code} />,
 								}}
