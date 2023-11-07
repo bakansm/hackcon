@@ -14,29 +14,13 @@ import {
 	StepStatus,
 	StepTitle,
 	Stepper,
-	Text,
 	useSteps,
 } from '@chakra-ui/react';
+import { Key } from 'react';
 
-const steps = [
-	{ title: 'Register starts', date: '13 July 2023', time: '12:00 AM GMT+7' },
-	{ title: 'Register ends', date: '13 July 2023', time: '12:00 AM GMT+7' },
-	{
-		title: 'Submission starts',
-		date: '13 July 2023',
-		time: '12:00 AM GMT+7',
-	},
-	{ title: 'Submission ends', date: '13 July 2023', time: '12:00 AM GMT+7' },
-	{
-		title: 'Results Announced',
-		date: '13 July 2023',
-		time: '12:00 AM GMT+7',
-	},
-];
-
-export default function ScheduleTab() {
+export default function ScheduleTab({ steps }: { steps: any }) {
 	const { activeStep } = useSteps({
-		index: 1,
+		index: 0,
 		count: steps.length,
 	});
 
@@ -53,10 +37,10 @@ export default function ScheduleTab() {
 			<Stepper
 				index={activeStep}
 				orientation='vertical'
-				gap='0'
+				gap={0}
 			>
-				{steps.map((step, index) => (
-					<Step key={index}>
+				{steps.map((step: any, key: Key) => (
+					<Step key={key}>
 						<StepIndicator>
 							<StepStatus
 								complete={<StepIcon />}

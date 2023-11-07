@@ -8,13 +8,7 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 
-interface Prize {
-	position: number;
-	bountie: number;
-	amount: number;
-}
-
-export default function PrizeCard({ prize }: { prize: Prize }) {
+export default function PrizeCard({ prize }: { prize: any }) {
 	const medalPath = (prizePosition: number) => {
 		switch (prizePosition) {
 			case 1:
@@ -56,7 +50,7 @@ export default function PrizeCard({ prize }: { prize: Prize }) {
 				justifyContent={'center'}
 			>
 				<Image
-					src={medalPath(prize.position)}
+					src={medalPath(prize.place)}
 					alt='medal'
 					width={64}
 					height={64}
@@ -75,7 +69,7 @@ export default function PrizeCard({ prize }: { prize: Prize }) {
 							px={'1rem'}
 							whiteSpace={'nowrap'}
 						>
-							{positionText(prize.position)} Prize
+							{positionText(prize.place)} Prize
 						</Heading>
 					</AbsoluteCenter>
 				</Box>
@@ -87,7 +81,7 @@ export default function PrizeCard({ prize }: { prize: Prize }) {
 					mb={0}
 					p={0}
 				>
-					$ {prize.bountie.toLocaleString()}
+					$ {prize.reward.toLocaleString()}
 				</Text>
 				<Text
 					color={'blackAlpha.500'}
@@ -96,7 +90,7 @@ export default function PrizeCard({ prize }: { prize: Prize }) {
 					mb={0}
 					p={0}
 				>
-					{prize.amount.toLocaleString()} prize
+					{prize.quantity.toLocaleString()} prize
 				</Text>
 			</Box>
 		</Card>

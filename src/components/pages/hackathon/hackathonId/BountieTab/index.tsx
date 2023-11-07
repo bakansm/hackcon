@@ -1,7 +1,6 @@
 import {
 	Box,
 	Center,
-	Divider,
 	Heading,
 	Tab,
 	TabIndicator,
@@ -13,18 +12,9 @@ import {
 	VStack,
 } from '@chakra-ui/react';
 import TrackSection from './TrackSection';
-import { dataList } from '../../../../../data/fakedata';
+import { Key } from 'react';
 
-const tabList = [
-	'Near Foundation',
-	'Polkadot Network',
-	'Proximity Labs',
-	'Ref Finance',
-];
-
-const pool: number = 118000;
-
-export default function BountieTab() {
+export default function BountieTab({ data }: { data: any }) {
 	return (
 		<Box
 			display={'flex'}
@@ -53,7 +43,7 @@ export default function BountieTab() {
 					fontSize={'4xl'}
 					fontWeight={'black'}
 				>
-					${pool.toLocaleString()}
+					sadadasdsdasdasd
 				</Text>
 			</Center>
 
@@ -63,14 +53,14 @@ export default function BountieTab() {
 				variant='unstyled'
 			>
 				<TabList>
-					{tabList.map((tab, key) => (
+					{data.map((tab: any, key: Key) => (
 						<Tab
 							key={key}
 							as={'h4'}
 							fontSize={'md'}
 							fontWeight={'bold'}
 						>
-							{tab}
+							{tab.sponsor_name}
 						</Tab>
 					))}
 				</TabList>
@@ -80,31 +70,32 @@ export default function BountieTab() {
 					borderRadius='1px'
 				/>
 				<TabPanels>
-					{dataList.map((data, key) => (
+					{data.map((sponsor: any, key: Key) => (
 						<TabPanel key={key}>
 							<Heading
 								as={'h4'}
 								size={'lg'}
 							>
-								{data.sponsor}
+								{sponsor.sponsor_name}
 							</Heading>
 							<Text
 								fontSize={'2xl'}
 								fontWeight={'bold'}
 								color={'blackAlpha.600'}
 							>
-								${data.pool.toLocaleString()}
+								${sponsor.prize_pool.toLocaleString()}
 							</Text>
-							<VStack spacing={'1rem'}>
-								{data.trackList.map((track, key) => (
-									<div key={key}>
-										<Divider />
-										<TrackSection
-											title={track.title}
-											description={track.description}
-											prizeList={track.prizeList}
-										/>
-									</div>
+							<VStack
+								spacing={'1rem'}
+								justify={'stretch'}
+							>
+								{sponsor.track.map((track: any, key: Key) => (
+									<TrackSection
+										key={key}
+										title={track.track_name}
+										description={track.description}
+										prizeList={track.prizes}
+									/>
 								))}
 							</VStack>
 						</TabPanel>

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React from 'react';
 import {
 	Center,
 	Heading,
@@ -9,16 +9,20 @@ import {
 } from '@chakra-ui/react';
 import SponsorCard from './SponsorCard';
 import { AddIcon } from '@chakra-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { addNewSponsor } from '@/redux/slicers/createHackathonSlice';
 
 export default function SponsorStep() {
-	const [sponsorCards, setSponsorCards] = useState<ReactElement[]>([]);
+	const dispatch = useDispatch();
 
 	const addSponsorCard = () => {
-		setSponsorCards([
-			...sponsorCards,
-			<SponsorCard key={sponsorCards.length} />,
-		]);
+		dispatch(addNewSponsor());
 	};
+
+	const sponsorCardList = useSelector(
+		(state: RootState) => state.createHackthon.sponsor,
+	);
 
 	return (
 		<Center>
@@ -28,8 +32,13 @@ export default function SponsorStep() {
 					spacing={'1rem'}
 					justify={'center'}
 				>
-					{sponsorCards.map((card, index) => (
-						<WrapItem key={index}>{card}</WrapItem>
+					{sponsorCardList.map((card, index) => (
+						<WrapItem key={index}>
+							<SponsorCard
+								index={index}
+								cardData={card}
+							/>
+						</WrapItem>
 					))}
 				</Wrap>
 				<IconButton

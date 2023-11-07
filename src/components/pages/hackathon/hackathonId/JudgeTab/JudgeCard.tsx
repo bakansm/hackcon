@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { PhoneIcon, EmailIcon } from '@chakra-ui/icons';
 
-export default function JudgeCard() {
+export default function JudgeCard({ judge }: { judge: any }) {
 	return (
 		<Card maxW='sm'>
 			<CardBody>
@@ -23,8 +23,8 @@ export default function JudgeCard() {
 					borderRadius='lg'
 				/>
 				<Stack mt='3'>
-					<Heading size='md'>Bao Khanh - San</Heading>
-					<Text>VBI Frotend Senior Internship</Text>
+					<Heading size='md'>{judge.name}</Heading>
+					<Text>{judge.role}</Text>
 				</Stack>
 			</CardBody>
 			<CardFooter>

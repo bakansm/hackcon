@@ -6,7 +6,7 @@ import {
 	GridItem,
 	VStack,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDefaultLayout } from '@/hooks/useLayout';
 import SubmitProjectTab from '@/components/pages/hackathon/hackathonId/SubmitProjectTab';
 import DiscussTab from '@/components/pages/hackathon/hackathonId/DiscussTab';
@@ -15,26 +15,116 @@ import BountieTab from '@/components/pages/hackathon/hackathonId/BountieTab';
 import JudgeTab from '@/components/pages/hackathon/hackathonId/JudgeTab';
 import OverviewTab from '@/components/pages/hackathon/hackathonId/OverviewTab';
 import SubmmitedProjectTab from '@/components/pages/hackathon/hackathonId/SubmmitedProjectTab';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import changeISOtoUTC from '@/utils/changeISOtoUTC';
 
 const tabList = ['overview', 'judge', 'bountie', 'schedule', 'discuss'];
 
 export default function HackathonDetail() {
+	const router = useRouter();
+	const { hackathonId } = router.query;
+	const [hackathonDetail, setHackathonDetail] = useState<any>();
 	const [selectedTab, setSelectedTab] = useState<string>('overview');
 
 	const selectTab = (tab: string) => {
 		setSelectedTab(tab);
 	};
 
+	useEffect(() => {
+		if (hackathonId) {
+			const fetchData = async () => {
+				let config = {
+					method: 'get',
+					maxBodyLength: Infinity,
+					url: `${process.env.API_URL}/api/hackathon/get-hack-id?id=${hackathonId}`,
+					headers: {
+						Authorization:
+							'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2NGQxZmZiMjI4OTk5OWU1MWNkMTUxMzkiLCJFbWFpbCI6ImR1bmdANWlyZS5vcmciLCJVc2VyVHlwZSI6ImFkbWluIiwiZXhwIjoxNjk4OTk2MjQ4Ljc1NTYyOH0.IqRedzGJNyyy9_yopUAUCGB78mUSHByObNLrflXC1Rc',
+					},
+				};
+
+				await axios
+					.request(config)
+					.then((response) => {
+						setHackathonDetail(response.data.message);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			};
+
+			fetchData();
+		}
+	}, [hackathonId]);
+
 	const renderTab = (tab: string) => {
 		switch (tab) {
 			case 'overview':
-				return <OverviewTab />;
+				return (
+					<OverviewTab
+						data={{
+							overview: hackathonDetail?.overview,
+							sponsorList: hackathonDetail?.sponsors,
+						}}
+					/>
+				);
 			case 'judge':
-				return <JudgeTab />;
+				return <JudgeTab data={hackathonDetail?.judges} />;
 			case 'bountie':
-				return <BountieTab />;
+				return <BountieTab data={hackathonDetail?.sponsors} />;
 			case 'schedule':
-				return <ScheduleTab />;
+				return (
+					<ScheduleTab
+						steps={[
+							{
+								title: 'Register starts',
+								date: changeISOtoUTC(
+									hackathonDetail.registration_start,
+								).date,
+								time: changeISOtoUTC(
+									hackathonDetail.registration_start,
+								).time,
+							},
+							{
+								title: 'Register ends',
+								date: changeISOtoUTC(
+									hackathonDetail.registration_end,
+								).date,
+								time: changeISOtoUTC(
+									hackathonDetail.registration_end,
+								).time,
+							},
+							{
+								title: 'Submission starts',
+								date: changeISOtoUTC(
+									hackathonDetail.submission_start,
+								).date,
+								time: changeISOtoUTC(
+									hackathonDetail.submission_start,
+								).time,
+							},
+							{
+								title: 'Submission ends',
+								date: changeISOtoUTC(
+									hackathonDetail.submission_end,
+								).date,
+								time: changeISOtoUTC(
+									hackathonDetail.submission_end,
+								).time,
+							},
+							{
+								title: 'Results Announced',
+								date: changeISOtoUTC(
+									hackathonDetail.result_announce,
+								).date,
+								time: changeISOtoUTC(
+									hackathonDetail.result_announce,
+								).time,
+							},
+						]}
+					/>
+				);
 			case 'discuss':
 				return <DiscussTab />;
 			case 'submit-project':

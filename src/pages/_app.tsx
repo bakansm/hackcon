@@ -14,6 +14,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { useBosLoaderInitializer } from '@/hooks/useBosLoaderInitializer';
 import { useHashUrlBackwardsCompatibility } from '@/hooks/useHashUrlBackwardsCompatibility';
 import type { NextPageWithLayout } from '@/utils/types';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
 
 const VmInitializer = dynamic(() => import('../components/vm/VmInitializer'), {
 	ssr: false,
@@ -41,7 +43,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 			<VmInitializer />
 
 			<ChakraProvider>
-				{getLayout(<Component {...pageProps} />)}
+				<Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>
 			</ChakraProvider>
 			
 			<Toaster />

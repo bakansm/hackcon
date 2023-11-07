@@ -1,4 +1,4 @@
-import { Box, HStack, Heading, Text } from '@chakra-ui/react';
+import { Box, Divider, HStack, Heading, Text } from '@chakra-ui/react';
 import PrizeCard from './PrizeCard';
 
 type Prize = {
@@ -15,7 +15,11 @@ interface Track {
 
 export default function TrackSection({ title, description, prizeList }: Track) {
 	return (
-		<Box mb={'3rem'}>
+		<Box
+			mb={'3rem'}
+			w={'100%'}
+		>
+			<Divider />
 			<Heading
 				as={'h5'}
 				size={'md'}
@@ -28,7 +32,7 @@ export default function TrackSection({ title, description, prizeList }: Track) {
 			>
 				{description}
 			</Text>
-			<HStack spacing={4}>
+			<HStack spacing={'1rem'}>
 				{prizeList.map((prize, key) => (
 					<PrizeCard
 						prize={prize}

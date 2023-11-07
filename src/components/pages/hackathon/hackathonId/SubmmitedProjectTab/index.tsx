@@ -9,17 +9,47 @@ import {
 	Text,
 	VStack,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function SubmmitedProjectTab() {
 	const router = useRouter();
+	const { hackathonId } = router.query;
+	const [projectList, setProjectList] = useState<any[]>();
+
+	console.log(projectList)
+
+	useEffect(() => {
+		if (hackathonId) {
+			const fetchData = async () => {
+				let config = {
+					method: 'get',
+					maxBodyLength: Infinity,
+					url: `${process.env.API_URL}/api/hackathon/get-all-projects?id=${hackathonId}`,
+					headers: {},
+				};
+
+				await axios
+					.request(config)
+					.then((response) => {
+						setProjectList(response.data.message);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			};
+
+			fetchData();
+		}
+	}, [hackathonId]);
 
 	return (
 		<VStack
 			spacing={'1rem'}
 			align={'stretch'}
 		>
-			{[...Array(6)].map((_, key) => (
+			{projectList?.map((project, key) => (
 				<Card
 					key={key}
 					direction={'row'}
@@ -41,7 +71,9 @@ export default function SubmmitedProjectTab() {
 						</Text>
 					</CardBody>
 					<CardFooter>
-						<Button onClick={() => router.push('/project/dasfkj')}>
+						<Button
+							onClick={() => router.push(`/project/${project._id}`)}
+						>
 							View detail
 						</Button>
 					</CardFooter>

@@ -3,33 +3,61 @@ import {
 	Box,
 	Button,
 	Flex,
-	FormControl,
 	FormLabel,
 	HStack,
 	Input,
 	Textarea,
 	VStack,
 } from '@chakra-ui/react';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+export type Project = {
+	description: string;
+	solution: string;
+	projectImage: string;
+	challenges: string;
+	technologies: string[];
+	projectVideo: string;
+	projectPresentation: string;
+	externalLink: string;
+};
 
 export default function SubmitProjectTab() {
 	const [technologiesUsed, setTechnologiesUsed] = useState<string[]>([]);
 	const [technology, setTechnology] = useState<string>('');
-
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setTechnology(event.target.value);
+	const { register, handleSubmit, resetField } = useForm<Project>();
+	const onSubmit: SubmitHandler<Project> = (data) => {
+		console.log(data);
 	};
-
 	const addTechnology = () => {
 		setTechnologiesUsed([...technologiesUsed, technology]);
+		resetField('technologies');
 	};
 
 	return (
-		<FormControl>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<VStack
 				spacing={'2rem'}
 				align={'stretch'}
+				mb={'2rem'}
 			>
+				<Box>
+					<FormLabel
+						fontSize={'xl'}
+						fontWeight={'bold'}
+					>
+						Short description
+					</FormLabel>
+					<Textarea
+						h={'5rem'}
+						resize={'none'}
+						{...register('description', {
+							required: true,
+							max: 300,
+						})}
+					/>
+				</Box>
 				<Box>
 					<FormLabel
 						fontSize={'xl'}
@@ -40,6 +68,7 @@ export default function SubmitProjectTab() {
 					<Textarea
 						h={'20rem'}
 						resize={'none'}
+						{...register('solution', { required: true })}
 					/>
 				</Box>
 				<Box>
@@ -52,6 +81,8 @@ export default function SubmitProjectTab() {
 					<Input
 						type='file'
 						border={'none'}
+						w={'min-content'}
+						{...register('projectImage', { required: true })}
 					/>
 				</Box>
 				<Box>
@@ -64,34 +95,43 @@ export default function SubmitProjectTab() {
 					<Textarea
 						h={'10rem'}
 						resize={'none'}
+						{...register('challenges', {
+							required: true,
+							max: 600,
+						})}
 					/>
 				</Box>
-				<Flex
-					direction={'column'}
-					gap={'1rem'}
-				>
+				<Flex direction={'column'}>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
 					>
 						Technologies used
 					</FormLabel>
-					<HStack spacing={'1rem'}>
-						{technologiesUsed.map((technology, key) => (
-							<Badge
-								key={key}
-								fontSize={'sm'}
-								padding={'.5rem'}
-							>
-								{technology}
-							</Badge>
-						))}
-					</HStack>
+					{technologiesUsed[0] && (
+						<HStack
+							spacing={'1rem'}
+							mb={'1rem'}
+						>
+							{technologiesUsed.map((technology, key) => (
+								<Badge
+									key={key}
+									fontSize={'xs'}
+									rounded={'full'}
+									py={'0.25rem'}
+									px={'1rem'}
+								>
+									{technology}
+								</Badge>
+							))}
+						</HStack>
+					)}
 					<HStack spacing={'1rem'}>
 						<Input
 							w={'10rem'}
-							onChange={handleChange}
-							value={technology}
+							{...register('technologies', {
+								required: true,
+							})}
 						/>
 						<Button
 							variant={'ghost'}
@@ -109,7 +149,10 @@ export default function SubmitProjectTab() {
 					>
 						Your project video link
 					</FormLabel>
-					<Input type='text' />
+					<Input
+						type='text'
+						{...register('projectVideo')}
+					/>
 				</Box>
 				<Box>
 					<FormLabel
@@ -121,6 +164,8 @@ export default function SubmitProjectTab() {
 					<Input
 						type='file'
 						border={'none'}
+						w={'min-content'}
+						{...register('projectPresentation')}
 					/>
 				</Box>
 				<Box>
@@ -130,15 +175,22 @@ export default function SubmitProjectTab() {
 					>
 						External Link
 					</FormLabel>
-					<Input type='text' />
+					<Input
+						type='text'
+						{...register('externalLink')}
+					/>
 				</Box>
-				<Button
-					variant={'solid'}
-					colorScheme='teal'
-				>
-					Submit
-				</Button>
+				<Flex justify={'center'}>
+					<Button
+						variant={'solid'}
+						colorScheme='teal'
+						w={'min-content'}
+						type='submit'
+					>
+						Submit
+					</Button>
+				</Flex>
 			</VStack>
-		</FormControl>
+		</form>
 	);
 }

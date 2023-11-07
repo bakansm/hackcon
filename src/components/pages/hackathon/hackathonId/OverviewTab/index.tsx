@@ -8,22 +8,26 @@ import {
 	WrapItem,
 } from '@chakra-ui/react';
 import DescriptionSection from './DescriptionSection';
+import { Key } from 'react';
 
-const sponsorList = [
-	'NEAR Foundation',
-	'Polkadot Network',
-	'Proximity Labs',
-	'Ref Finance',
-];
-
-export default function OverviewTab() {
+export default function OverviewTab({ data }: { data: any }) {
 	return (
 		<VStack
 			divider={<StackDivider borderColor='gray.200' />}
 			spacing={4}
 			align='stretch'
 		>
-			<DescriptionSection />
+			<Box>
+				<Heading
+					textTransform={'uppercase'}
+					as={'h2'}
+					size={'lg'}
+					color={'blackAlpha.600'}
+				>
+					Overview
+				</Heading>
+				<DescriptionSection data={data?.overview} />
+			</Box>
 			<Box>
 				<Heading
 					textTransform={'uppercase'}
@@ -34,7 +38,7 @@ export default function OverviewTab() {
 					sponsor
 				</Heading>
 				<Wrap spacing={'2rem'}>
-					{sponsorList.map((sponsor, key) => (
+					{data.sponsorList?.map((sponsor: any, key: Key) => (
 						<WrapItem
 							key={key}
 							p={'3rem'}
@@ -52,7 +56,7 @@ export default function OverviewTab() {
 								whiteSpace={'nowrap'}
 								fontWeight={'bold'}
 							>
-								{sponsor}
+								{sponsor.sponsor_name}
 							</Center>
 						</WrapItem>
 					))}

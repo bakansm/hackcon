@@ -9,13 +9,20 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import JudgeCard from './JudgeCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewJudge } from '@/redux/slicers/createHackathonSlice';
+import { RootState } from '@/redux/store';
 
 export default function SponsorStep() {
-	const [judgeCards, setJudgeCards] = useState<ReactElement[]>([]);
+	const dispatch = useDispatch();
 
-	const addSponsorCard = () => {
-		setJudgeCards([...judgeCards, <JudgeCard key={judgeCards.length} />]);
+	const addJudgeCard = () => {
+		dispatch(addNewJudge());
 	};
+
+	const judgeList = useSelector(
+		(state: RootState) => state.createHackthon.judge,
+	);
 
 	return (
 		<Center>
@@ -25,13 +32,18 @@ export default function SponsorStep() {
 					spacing={'1rem'}
 					justify={'center'}
 				>
-					{judgeCards.map((card, index) => (
-						<WrapItem key={index}>{card}</WrapItem>
+					{judgeList.map((judge, index) => (
+						<WrapItem key={index}>
+							<JudgeCard
+								judgeData={judge}
+								index={index}
+							/>
+						</WrapItem>
 					))}
 				</Wrap>
 				<IconButton
 					variant={'outline'}
-					onClick={addSponsorCard}
+					onClick={addJudgeCard}
 					aria-label='add'
 				>
 					<AddIcon />

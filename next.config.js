@@ -9,6 +9,7 @@ const nextConfig = {
 	env: {
 		NEXT_PUBLIC_NETWORK_ID: process.env.NEXT_PUBLIC_NETWORK_ID,
 		NEXT_PUBLIC_HOSTNAME: process.env.NEXT_PUBLIC_HOSTNAME,
+		API_URL: process.env.API_URL,
 	},
 };
 
