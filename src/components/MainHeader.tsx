@@ -7,7 +7,6 @@ import {
 	Center,
 	Container,
 	Flex,
-	Heading,
 	Text,
 } from '@chakra-ui/react';
 import Image from 'next/image';
@@ -38,8 +37,8 @@ export const MainHeader = () => {
 					<Image
 						src={'/logo-text.svg'}
 						alt='logo-text'
-						width={400}
-						height={100}
+						width={200}
+						height={68}
 					/>
 				</Box>
 

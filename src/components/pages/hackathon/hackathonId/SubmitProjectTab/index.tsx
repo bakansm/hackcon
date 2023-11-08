@@ -39,10 +39,6 @@ export default function SubmitProjectTab() {
 		setExternalLink(event.target.value);
 	};
 
-	const addExternalLink = () => {
-		setExternalLinkList([...externalLinkList, externalLink]);
-	};
-
 	const handleTechnologyChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setTechnology(event.target.value);
 	};

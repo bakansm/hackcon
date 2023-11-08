@@ -14,9 +14,13 @@ export default function CreateHackathon() {
 	const [step, setStep] = useState<number>(1);
 	const router = useRouter();
 
-	const sponsorAmount = useSelector(
-		(state: RootState) => state.createHackthon.sponsor.length,
+	const createHackathonData = useSelector(
+		(state: RootState) => state.createHackthon,
 	);
+
+	const submitHackathon = () => {
+		console.log(createHackathonData);
+	};
 
 	const nextStep = () => {
 		if (step < 5) setStep(step + 1);
@@ -78,7 +82,7 @@ export default function CreateHackathon() {
 						<Button
 							variant={'solid'}
 							colorScheme='teal'
-							onClick={nextStep}
+							onClick={submitHackathon}
 						>
 							Complete
 						</Button>

@@ -74,7 +74,16 @@ const initialState: createHackathonState = {
 			isSubmitted: false,
 		},
 	],
-	judge: [],
+	judge: [
+		{
+			name: '',
+			role: '',
+			email: '',
+			wallet: '',
+			avatarImage: '',
+			isSubmitted: false,
+		},
+	],
 	schedule: {
 		registerStart: getCurrentDate(),
 		registerEnd: getCurrentDate(),
