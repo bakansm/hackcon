@@ -34,12 +34,21 @@ export default function JudgeCard({
 	const { register, handleSubmit } = useForm<Judge>();
 
 	const onSubmit: SubmitHandler<Judge> = (data) => {
-		dispatch(
-			submitJudge({
-				index: index,
-				judge: { ...data, isSubmitted: true },
-			}),
-		);
+		if (isSubmitted) {
+			dispatch(
+				submitJudge({
+					index: index,
+					judge: { ...data, isSubmitted: false },
+				}),
+			);
+		} else {
+			dispatch(
+				submitJudge({
+					index: index,
+					judge: { ...data, isSubmitted: true },
+				}),
+			);
+		}
 	};
 
 	return (
@@ -95,6 +104,7 @@ export default function JudgeCard({
 						<Input
 							type='text'
 							focusBorderColor='teal.500'
+							value={email}
 							{...register('email', {
 								required: true,
 								onChange(event) {
@@ -112,6 +122,7 @@ export default function JudgeCard({
 						<Input
 							type='text'
 							focusBorderColor='teal.500'
+							value={wallet}
 							{...register('wallet', {
 								required: true,
 								onChange(event) {
@@ -127,9 +138,9 @@ export default function JudgeCard({
 							fontWeight={'semibold'}
 						/>
 						<Input
-							type='file'
-							border={'none'}
+							type='text'
 							focusBorderColor='teal.500'
+							value={avatarImage}
 							{...register('avatarImage', {
 								required: true,
 								onChange(event) {

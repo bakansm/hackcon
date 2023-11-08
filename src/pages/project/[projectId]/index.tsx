@@ -21,16 +21,24 @@ import {
 	VStack,
 	useDisclosure,
 } from '@chakra-ui/react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const tabList = ['overview', 'bos view', 'team'];
 
 export default function ProjectDetail() {
+	const router = useRouter();
+	const { projectId } = router.query;
+	const [projectDetail, setProjectDetail] = useState<any>();
+
 	const renderTab = (tab: string) => {
 		switch (tab) {
 			case 'overview':
-				return <OverviewTab />;
+				if (projectDetail) return <OverviewTab data={projectDetail} />;
 			case 'bos view':
-				return <BOSTab />;
+				if (projectDetail?.bos_link)
+					return <BOSTab link={projectDetail?.bos_link} />;
 			case 'team':
 				return <TeamTab />;
 			default:
@@ -39,6 +47,31 @@ export default function ProjectDetail() {
 	};
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	useEffect(() => {
+		if (projectId) {
+			const fetchData = async () => {
+				const config = {
+					method: 'get',
+					maxBodyLength: Infinity,
+					url: `${process.env.API_URL}/api/user/get-project?project_id=${projectId}`,
+					headers: {},
+				};
+
+				await axios
+					.request(config)
+					.then((response) => {
+						console.log(response.data.message);
+						setProjectDetail(response.data.message);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			};
+
+			fetchData();
+		}
+	}, [projectId]);
 
 	return (
 		<Container maxW={'1440px'}>
@@ -72,7 +105,7 @@ export default function ProjectDetail() {
 									p={0}
 									m={0}
 								>
-									OraSci
+									{projectDetail?.project_name}
 								</Heading>
 								<Flex
 									gap={'.5rem'}
@@ -100,8 +133,7 @@ export default function ProjectDetail() {
 								fontSize={'xl'}
 								color={'blackAlpha.600'}
 							>
-								The first Decentralized Science building on Near
-								Protocol
+								{projectDetail?.short_description}
 							</Text>
 						</Flex>
 					</HStack>

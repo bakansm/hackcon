@@ -1,8 +1,4 @@
-import {
-	Prize,
-	Track,
-	submitTrack,
-} from '@/redux/slicers/createHackathonSlice';
+import { Track, submitTrack } from '@/redux/slicers/createHackathonSlice';
 import { RootState } from '@/redux/store';
 import {
 	Button,
@@ -13,7 +9,7 @@ import {
 	InputLeftAddon,
 	Textarea,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,13 +22,28 @@ export default function TrackCard({
 	sponsorIndex: number;
 	trackIndex: number;
 }) {
-	const { register, handleSubmit } = useForm<Track>();
-	const [name, setName] = useState<string>(trackData.name);
-	const [description, setDescription] = useState<string>(
-		trackData.description,
-	);
-	const [prize, setPrize] = useState<Prize>(trackData.prize);
 	const dispatch = useDispatch();
+	const { register, handleSubmit } = useForm<Track>();
+	const [name, setName] = useState<string>(trackData?.name);
+
+	const [description, setDescription] = useState<string>(
+		trackData?.description,
+	);
+
+	const [firstPrize, setFirstPrize] = useState<{
+		bounty: number;
+		amount: number;
+	}>(trackData?.firstPrize);
+
+	const [secondPrize, setSecondPrice] = useState<{
+		bounty: number;
+		amount: number;
+	}>(trackData?.secondPrize);
+
+	const [thirdPrize, setThirdPrize] = useState<{
+		bounty: number;
+		amount: number;
+	}>(trackData?.thirdPrize);
 
 	const isSubmitted = useSelector(
 		(state: RootState) =>
@@ -45,14 +56,28 @@ export default function TrackCard({
 			dispatch(
 				submitTrack({
 					sponsorIndex: sponsorIndex,
-					track: { ...data, isSubmitted: true },
+					trackIndex: trackIndex,
+					track: {
+						...data,
+						isSubmitted: true,
+						firstPrize: firstPrize,
+						secondPrize: secondPrize,
+						thirdPrize: thirdPrize,
+					},
 				}),
 			);
 		} else {
 			dispatch(
 				submitTrack({
 					sponsorIndex: sponsorIndex,
-					track: { ...data, isSubmitted: false },
+					trackIndex: trackIndex,
+					track: {
+						...data,
+						isSubmitted: false,
+						firstPrize: firstPrize,
+						secondPrize: secondPrize,
+						thirdPrize: thirdPrize,
+					},
 				}),
 			);
 		}
@@ -117,20 +142,15 @@ export default function TrackCard({
 						<Input
 							type='number'
 							focusBorderColor='teal.500'
-							value={prize.firstPrize.bounty}
-							{...register('prize', {
-								required: true,
-								onChange(event) {
-									setPrize((prevPrize) => ({
-										firstPrize: {
-											amount: prevPrize.firstPrize.amount,
-											bounty: event.target.value,
-										},
-										secondPrize: prevPrize.secondPrize,
-										thirdPrize: prevPrize.thirdPrize,
-									}));
-								},
-							})}
+							value={firstPrize?.bounty}
+							onChange={(
+								event: ChangeEvent<HTMLInputElement>,
+							) => {
+								setFirstPrize({
+									bounty: Number(event.target.value),
+									amount: firstPrize.amount,
+								});
+							}}
 						/>
 						<InputLeftAddon
 							ml={'1rem'}
@@ -142,124 +162,108 @@ export default function TrackCard({
 							type='number'
 							focusBorderColor='teal.500'
 							w={'4rem'}
-							value={prize.firstPrize.amount}
-							{...register('prize', {
-								required: true,
-								onChange(event) {
-									setPrize((prevPrize) => ({
-										...prevPrize,
-										firstPrize: {
-											...prevPrize.firstPrize,
-											amount: event.target.value,
-										},
-									}));
-								},
-							})}
+							value={firstPrize?.amount}
+							onChange={(
+								event: ChangeEvent<HTMLInputElement>,
+							) => {
+								setFirstPrize({
+									bounty: firstPrize.bounty,
+									amount: Number(event.target.value),
+								});
+							}}
 						/>
 					</InputGroup>
 				</FormControl>
-				<InputGroup
-					key={1}
-					mt={'1rem'}
-				>
-					<InputLeftAddon
-						children='2nd Prize'
-						minW={'8rem'}
-						fontWeight={'semibold'}
-					/>
-					<Input
-						type='number'
-						focusBorderColor='teal.500'
-						value={prize.secondPrize.bounty}
-						{...register('prize', {
-							required: true,
-							onChange(event) {
-								setPrize((prevPrize) => ({
-									...prevPrize,
-									secondPrize: {
-										...prevPrize.secondPrize,
-										bounty: event.target.value,
-									},
-								}));
-							},
-						})}
-					/>
-					<InputLeftAddon
-						ml={'1rem'}
-						children='Amount'
-						minW={'6rem'}
-						fontWeight={'semibold'}
-					/>
-					<Input
-						type='number'
-						focusBorderColor='teal.500'
-						w={'4rem'}
-						value={prize.secondPrize.amount}
-						{...register('prize', {
-							required: true,
-							onChange(event) {
-								setPrize((prevPrize) => ({
-									...prevPrize,
-									secondPrize: {
-										...prevPrize.secondPrize,
-										amount: event.target.value,
-									},
-								}));
-							},
-						})}
-					/>
-				</InputGroup>
-				<InputGroup
-					key={2}
-					mt={'1rem'}
-				>
-					<InputLeftAddon
-						children='3rd Prize'
-						minW={'8rem'}
-						fontWeight={'semibold'}
-					/>
-					<Input
-						type='number'
-						focusBorderColor='teal.500'
-						value={prize.thirdPrize.bounty}
-						{...register('prize', {
-							required: true,
-							onChange(event) {
-								setPrize((prevPrize) => ({
-									...prevPrize,
-									thirdPrize: {
-										...prevPrize.thirdPrize,
-										bounty: event.target.value,
-									},
-								}));
-							},
-						})}
-					/>
-					<InputLeftAddon
-						ml={'1rem'}
-						children='Amount'
-						minW={'6rem'}
-						fontWeight={'semibold'}
-					/>
-					<Input
-						type='number'
-						focusBorderColor='teal.500'
-						w={'4rem'}
-						value={prize.thirdPrize.amount}
-						{...register('prize', {
-							required: true,
-							onChange(event) {
-								setPrize((prevPrize) => ({
-									...prevPrize,
-									thirdPrize: {
-										...prevPrize.thirdPrize,
-										amount: event.target.value,
-									},
-								}));
-							},
-						})}
-					/>
-				</InputGroup>
+				<FormControl isRequired>
+					<InputGroup
+						key={1}
+						mt={'1rem'}
+					>
+						<InputLeftAddon
+							children='2nd Prize'
+							minW={'8rem'}
+							fontWeight={'semibold'}
+						/>
+						<Input
+							type='number'
+							focusBorderColor='teal.500'
+							value={secondPrize?.bounty}
+							onChange={(
+								event: ChangeEvent<HTMLInputElement>,
+							) => {
+								setSecondPrice({
+									bounty: Number(event.target.value),
+									amount: secondPrize.amount,
+								});
+							}}
+						/>
+						<InputLeftAddon
+							ml={'1rem'}
+							children='Amount'
+							minW={'6rem'}
+							fontWeight={'semibold'}
+						/>
+						<Input
+							type='number'
+							focusBorderColor='teal.500'
+							w={'4rem'}
+							value={secondPrize?.amount}
+							onChange={(
+								event: ChangeEvent<HTMLInputElement>,
+							) => {
+								setSecondPrice({
+									bounty: secondPrize.bounty,
+									amount: Number(event.target.value),
+								});
+							}}
+						/>
+					</InputGroup>
+				</FormControl>
+				<FormControl isRequired>
+					<InputGroup
+						key={2}
+						mt={'1rem'}
+					>
+						<InputLeftAddon
+							children='3rd Prize'
+							minW={'8rem'}
+							fontWeight={'semibold'}
+						/>
+						<Input
+							type='number'
+							focusBorderColor='teal.500'
+							value={thirdPrize?.bounty}
+							onChange={(
+								event: ChangeEvent<HTMLInputElement>,
+							) => {
+								setThirdPrize({
+									bounty: Number(event.target.value),
+									amount: thirdPrize.amount,
+								});
+							}}
+						/>
+						<InputLeftAddon
+							ml={'1rem'}
+							children='Amount'
+							minW={'6rem'}
+							fontWeight={'semibold'}
+						/>
+						<Input
+							type='number'
+							focusBorderColor='teal.500'
+							w={'4rem'}
+							value={thirdPrize?.amount}
+							onChange={(
+								event: ChangeEvent<HTMLInputElement>,
+							) => {
+								setThirdPrize({
+									bounty: thirdPrize.bounty,
+									amount: Number(event.target.value),
+								});
+							}}
+						/>
+					</InputGroup>
+				</FormControl>
 				{isSubmitted ? (
 					<Button
 						variant={'outline'}

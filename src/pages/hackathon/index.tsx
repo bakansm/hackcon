@@ -36,6 +36,7 @@ export default function Hackathon() {
 			await axios
 				.request(config)
 				.then((response) => {
+					console.log(response.data.message)
 					setHackthonList(response.data.message);
 				})
 				.catch((error) => {

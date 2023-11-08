@@ -10,6 +10,7 @@ import {
 	Heading,
 	Text,
 } from '@chakra-ui/react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export const MainHeader = () => {
@@ -20,14 +21,27 @@ export const MainHeader = () => {
 	const router = useRouter();
 
 	return (
-		<Center height={'84px'}>
+		<Center
+			height={'84px'}
+			overflow={'hidden'}
+		>
 			<Container
 				maxW={'1440px'}
 				display={'flex'}
 				alignItems={'center'}
 				justifyContent={'space-between'}
 			>
-				<Heading textTransform={'uppercase'}>hackcon</Heading>
+				<Box
+					onClick={() => router.push('/')}
+					cursor={'pointer'}
+				>
+					<Image
+						src={'/logo-text.svg'}
+						alt='logo-text'
+						width={400}
+						height={100}
+					/>
+				</Box>
 
 				<Flex gap={'1rem'}>
 					<Button

@@ -36,16 +36,18 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 			<Head>
 				<link
 					rel='icon'
-					href='favicon.ico'
+					href='/favicon.ico'
 				/>
 			</Head>
 
 			<VmInitializer />
 
 			<ChakraProvider>
-				<Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>
+				<Provider store={store}>
+					{getLayout(<Component {...pageProps} />)}
+				</Provider>
 			</ChakraProvider>
-			
+
 			<Toaster />
 		</>
 	);

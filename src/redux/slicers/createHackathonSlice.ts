@@ -20,7 +20,9 @@ export type Judge = {
 	isSubmitted: boolean;
 };
 
-export type Prize = {
+export type Track = {
+	name: string;
+	description: string;
 	firstPrize: {
 		bounty: number;
 		amount: number;
@@ -33,12 +35,6 @@ export type Prize = {
 		bounty: number;
 		amount: number;
 	};
-};
-
-export type Track = {
-	name: string;
-	description: string;
-	prize: Prize;
 	isSubmitted: boolean;
 };
 
@@ -65,7 +61,16 @@ const initialState: createHackathonState = {
 			prizePool: 0,
 			walletAddress: '',
 			logoImage: '',
-			track: [],
+			track: [
+				{
+					name: '',
+					description: '',
+					firstPrize: { bounty: 0, amount: 0 },
+					secondPrize: { bounty: 0, amount: 0 },
+					thirdPrize: { bounty: 0, amount: 0 },
+					isSubmitted: false,
+				},
+			],
 			isSubmitted: false,
 		},
 	],
@@ -85,6 +90,10 @@ export const createHackathonSlice = createSlice({
 	name: 'createHackathon',
 	initialState,
 	reducers: {
+		removeHackathon: (state) => {
+			state = initialState;
+		},
+
 		// Sponsor
 		submitSponsor: (
 			state,
@@ -100,7 +109,16 @@ export const createHackathonSlice = createSlice({
 					prizePool: 0,
 					walletAddress: '',
 					logoImage: '',
-					track: [],
+					track: [
+						{
+							name: '',
+							description: '',
+							firstPrize: { bounty: 0, amount: 0 },
+							secondPrize: { bounty: 0, amount: 0 },
+							thirdPrize: { bounty: 0, amount: 0 },
+							isSubmitted: false,
+						},
+					],
 					isSubmitted: false,
 				},
 			];
@@ -111,13 +129,17 @@ export const createHackathonSlice = createSlice({
 			state,
 			action: PayloadAction<{
 				sponsorIndex: number;
+				trackIndex: number;
 				track: Track;
 			}>,
 		) => {
-			state.sponsor[action.payload.sponsorIndex].track = [
+			const tempTrack = [
 				...state.sponsor[action.payload.sponsorIndex].track,
-				action.payload.track,
 			];
+
+			tempTrack[action.payload.trackIndex] = action.payload.track;
+
+			state.sponsor[action.payload.sponsorIndex].track = tempTrack;
 		},
 
 		addNewTrack: (state, action: PayloadAction<number>) => {
@@ -126,11 +148,9 @@ export const createHackathonSlice = createSlice({
 				{
 					name: '',
 					description: '',
-					prize: {
-						firstPrize: { bounty: 0, amount: 0 },
-						secondPrize: { bounty: 0, amount: 0 },
-						thirdPrize: { bounty: 0, amount: 0 },
-					},
+					firstPrize: { bounty: 0, amount: 0 },
+					secondPrize: { bounty: 0, amount: 0 },
+					thirdPrize: { bounty: 0, amount: 0 },
 					isSubmitted: false,
 				},
 			];
@@ -180,6 +200,7 @@ export const {
 	addNewSponsor,
 	submitTrack,
 	submitJudge,
+	removeHackathon,
 } = createHackathonSlice.actions;
 
 export default createHackathonSlice.reducer;

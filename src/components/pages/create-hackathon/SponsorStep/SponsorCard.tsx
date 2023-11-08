@@ -46,19 +46,17 @@ export default function SponsorCard({
 							{
 								name: '',
 								description: '',
-								prize: {
-									firstPrize: {
-										bounty: 0,
-										amount: 0,
-									},
-									secondPrize: {
-										bounty: 0,
-										amount: 0,
-									},
-									thirdPrize: {
-										bounty: 0,
-										amount: 0,
-									},
+								firstPrize: {
+									bounty: 0,
+									amount: 0,
+								},
+								secondPrize: {
+									bounty: 0,
+									amount: 0,
+								},
+								thirdPrize: {
+									bounty: 0,
+									amount: 0,
 								},
 								isSubmitted: false,
 							},
@@ -77,19 +75,17 @@ export default function SponsorCard({
 							{
 								name: '',
 								description: '',
-								prize: {
-									firstPrize: {
-										bounty: 0,
-										amount: 0,
-									},
-									secondPrize: {
-										bounty: 0,
-										amount: 0,
-									},
-									thirdPrize: {
-										bounty: 0,
-										amount: 0,
-									},
+								firstPrize: {
+									bounty: 0,
+									amount: 0,
+								},
+								secondPrize: {
+									bounty: 0,
+									amount: 0,
+								},
+								thirdPrize: {
+									bounty: 0,
+									amount: 0,
 								},
 								isSubmitted: false,
 							},
@@ -184,15 +180,14 @@ export default function SponsorCard({
 					</InputGroup>
 					<InputGroup mb={'1rem'}>
 						<InputLeftAddon
-							children='Logo image'
+							children='Logo image link'
 							minW={'10rem'}
 							fontWeight={'semibold'}
 						/>
 						<Input
 							type='text'
-							border={'none'}
-							value={logoImage}
 							disabled={isSubmitted}
+							value={logoImage}
 							{...register('logoImage', {
 								required: true,
 								onChange(event) {

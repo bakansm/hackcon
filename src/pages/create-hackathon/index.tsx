@@ -80,7 +80,7 @@ export default function CreateHackathon() {
 							colorScheme='teal'
 							onClick={nextStep}
 						>
-							Preview
+							Complete
 						</Button>
 					)}
 				</ButtonGroup>

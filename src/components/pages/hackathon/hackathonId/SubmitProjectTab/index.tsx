@@ -1,38 +1,57 @@
+import { AddIcon } from '@chakra-ui/icons';
 import {
 	Badge,
 	Box,
 	Button,
 	Flex,
+	FormControl,
 	FormLabel,
 	HStack,
+	IconButton,
 	Input,
 	Textarea,
 	VStack,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export type Project = {
+	projectName: string;
 	description: string;
 	solution: string;
-	projectImage: string;
+	projectImage: any[];
 	challenges: string;
+	bosLink: string;
 	technologies: string[];
 	projectVideo: string;
-	projectPresentation: string;
-	externalLink: string;
+	projectPresentation: any[];
+	externalLink: string[];
 };
 
 export default function SubmitProjectTab() {
 	const [technologiesUsed, setTechnologiesUsed] = useState<string[]>([]);
 	const [technology, setTechnology] = useState<string>('');
-	const { register, handleSubmit, resetField } = useForm<Project>();
+	const { register, handleSubmit } = useForm<Project>();
+	const [externalLink, setExternalLink] = useState<string>('');
+	const [externalLinkList, setExternalLinkList] = useState<string[]>([]);
+
+	const handleExternalLinkChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setExternalLink(event.target.value);
+	};
+
+	const addExternalLink = () => {
+		setExternalLinkList([...externalLinkList, externalLink]);
+	};
+
+	const handleTechnologyChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setTechnology(event.target.value);
+	};
+
 	const onSubmit: SubmitHandler<Project> = (data) => {
-		console.log(data);
+		console.log({ ...data, technologies: technologiesUsed });
 	};
 	const addTechnology = () => {
 		setTechnologiesUsed([...technologiesUsed, technology]);
-		resetField('technologies');
 	};
 
 	return (
@@ -42,7 +61,21 @@ export default function SubmitProjectTab() {
 				align={'stretch'}
 				mb={'2rem'}
 			>
-				<Box>
+				<FormControl isRequired>
+					<FormLabel
+						fontSize={'xl'}
+						fontWeight={'bold'}
+					>
+						Project Name
+					</FormLabel>
+					<Input
+						{...register('projectName', {
+							required: true,
+							max: 300,
+						})}
+					/>
+				</FormControl>
+				<FormControl isRequired>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
@@ -57,8 +90,8 @@ export default function SubmitProjectTab() {
 							max: 300,
 						})}
 					/>
-				</Box>
-				<Box>
+				</FormControl>
+				<FormControl isRequired>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
@@ -70,8 +103,8 @@ export default function SubmitProjectTab() {
 						resize={'none'}
 						{...register('solution', { required: true })}
 					/>
-				</Box>
-				<Box>
+				</FormControl>
+				<FormControl>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
@@ -82,10 +115,10 @@ export default function SubmitProjectTab() {
 						type='file'
 						border={'none'}
 						w={'min-content'}
-						{...register('projectImage', { required: true })}
+						{...register('projectImage')}
 					/>
-				</Box>
-				<Box>
+				</FormControl>
+				<FormControl>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
@@ -96,11 +129,10 @@ export default function SubmitProjectTab() {
 						h={'10rem'}
 						resize={'none'}
 						{...register('challenges', {
-							required: true,
 							max: 600,
 						})}
 					/>
-				</Box>
+				</FormControl>
 				<Flex direction={'column'}>
 					<FormLabel
 						fontSize={'xl'}
@@ -129,9 +161,7 @@ export default function SubmitProjectTab() {
 					<HStack spacing={'1rem'}>
 						<Input
 							w={'10rem'}
-							{...register('technologies', {
-								required: true,
-							})}
+							onChange={handleTechnologyChange}
 						/>
 						<Button
 							variant={'ghost'}
@@ -142,7 +172,7 @@ export default function SubmitProjectTab() {
 						</Button>
 					</HStack>
 				</Flex>
-				<Box>
+				<FormControl>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
@@ -153,8 +183,20 @@ export default function SubmitProjectTab() {
 						type='text'
 						{...register('projectVideo')}
 					/>
-				</Box>
-				<Box>
+				</FormControl>
+				<FormControl>
+					<FormLabel
+						fontSize={'xl'}
+						fontWeight={'bold'}
+					>
+						Your BOS link
+					</FormLabel>
+					<Input
+						type='text'
+						{...register('bosLink')}
+					/>
+				</FormControl>
+				<FormControl>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
@@ -167,19 +209,27 @@ export default function SubmitProjectTab() {
 						w={'min-content'}
 						{...register('projectPresentation')}
 					/>
-				</Box>
-				<Box>
+				</FormControl>
+				<FormControl>
 					<FormLabel
 						fontSize={'xl'}
 						fontWeight={'bold'}
 					>
 						External Link
 					</FormLabel>
-					<Input
-						type='text'
-						{...register('externalLink')}
-					/>
-				</Box>
+					<VStack
+						spacing={'1rem'}
+						mb={'0.5rem'}
+					>
+						<Input
+							type='text'
+							onChange={handleExternalLinkChange}
+						/>
+					</VStack>
+					<IconButton aria-label='add-btn'>
+						<AddIcon />
+					</IconButton>
+				</FormControl>
 				<Flex justify={'center'}>
 					<Button
 						variant={'solid'}

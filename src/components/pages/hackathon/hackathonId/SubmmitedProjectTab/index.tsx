@@ -18,8 +18,6 @@ export default function SubmmitedProjectTab() {
 	const { hackathonId } = router.query;
 	const [projectList, setProjectList] = useState<any[]>();
 
-	console.log(projectList)
-
 	useEffect(() => {
 		if (hackathonId) {
 			const fetchData = async () => {
@@ -64,15 +62,14 @@ export default function SubmmitedProjectTab() {
 						/>
 					</CardHeader>
 					<CardBody>
-						<Heading size={'lg'}>OraSci</Heading>
-						<Text fontSize={'xl'}>
-							The first Decentralized Science building on Near
-							Protocol
-						</Text>
+						<Heading size={'lg'}>{project.project_name}</Heading>
+						<Text fontSize={'xl'}>{project.short_description}</Text>
 					</CardBody>
 					<CardFooter>
 						<Button
-							onClick={() => router.push(`/project/${project._id}`)}
+							onClick={() =>
+								router.push(`/project/${project.project_id}`)
+							}
 						>
 							View detail
 						</Button>
