@@ -1,5 +1,13 @@
 import { useDefaultLayout } from '@/hooks/useLayout';
-import { Box, Button, ButtonGroup, Center, Heading } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	ButtonGroup,
+	Center,
+	Flex,
+	Heading,
+} from '@chakra-ui/react';
+import Image from 'next/image';
 
 export default function HomePage() {
 	return (
@@ -14,8 +22,19 @@ export default function HomePage() {
 					size={'2xl'}
 					textAlign={'center'}
 				>
-					Welcome to <span style={{ color: '#c09e71' }}>Hackhub</span>
+					Welcome to
 				</Heading>
+				<Flex
+					justify={'center'}
+					mb={'1rem'}
+				>
+					<Image
+						src={'/logo-text.svg'}
+						alt='logo-text'
+						width={400}
+						height={160}
+					/>
+				</Flex>
 				<Heading
 					size={'lg'}
 					textAlign={'center'}
