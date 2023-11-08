@@ -61,7 +61,6 @@ export default function ProjectDetail() {
 				await axios
 					.request(config)
 					.then((response) => {
-						console.log(response.data.message);
 						setProjectDetail(response.data.message);
 					})
 					.catch((error) => {

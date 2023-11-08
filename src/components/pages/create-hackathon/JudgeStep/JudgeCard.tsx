@@ -34,6 +34,7 @@ export default function JudgeCard({
 	const { register, handleSubmit } = useForm<Judge>();
 
 	const onSubmit: SubmitHandler<Judge> = (data) => {
+		console.log(data);
 		if (isSubmitted) {
 			dispatch(
 				submitJudge({
