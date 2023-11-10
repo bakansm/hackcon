@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 export type Schedule = {
-	registerStart: string;
-	registerEnd: string;
-	submissionStart: string;
-	submissionEnd: string;
-	resultAnnouncement: string;
-	isSubmitted: boolean;
+	registration_start: string;
+	registration_end: string;
+	submission_start: string;
+	submission_end: string;
+	result_announcement: string;
+	is_submitted: boolean;
 };
 
 export type Judge = {
@@ -16,83 +16,92 @@ export type Judge = {
 	role: string;
 	email: string;
 	wallet: string;
-	avatarImage: string;
-	isSubmitted: boolean;
+	avatar: string;
+	is_submitted: boolean;
+};
+
+export type Prize = {
+	place: 1 | 2 | 3;
+	reward: number;
+	quantity: number;
 };
 
 export type Track = {
-	name: string;
+	track_name: string;
 	description: string;
-	firstPrize: {
-		bounty: number;
-		amount: number;
-	};
-	secondPrize: {
-		bounty: number;
-		amount: number;
-	};
-	thirdPrize: {
-		bounty: number;
-		amount: number;
-	};
-	isSubmitted: boolean;
+	prizes: Prize[];
+	is_submitted: boolean;
 };
 
 export type Sponsor = {
-	name: string;
-	prizePool: number;
-	walletAddress: string;
-	logoImage: string;
+	sponsor_name: string;
+	prize_pool: number;
+	wallet: string;
+	logo: string;
 	track: Track[];
-	isSubmitted: boolean;
+	is_submitted: boolean;
+};
+
+export type Description = {
+	hackathon_name: string;
+	hackathon_description: string;
+	hackathon_place: string;
+	hackathon_overview: string;
 };
 
 interface createHackathonState {
-	sponsor: Sponsor[];
-	judge: Judge[];
+	sponsors: Sponsor[];
+	judges: Judge[];
 	schedule: Schedule;
-	overview: string;
+	description: Description;
 }
 
 const initialState: createHackathonState = {
-	sponsor: [
+	sponsors: [
 		{
-			name: '',
-			prizePool: 0,
-			walletAddress: '',
-			logoImage: '',
+			sponsor_name: '',
+			prize_pool: 0,
+			wallet: '',
+			logo: '',
 			track: [
 				{
-					name: '',
+					track_name: '',
 					description: '',
-					firstPrize: { bounty: 0, amount: 0 },
-					secondPrize: { bounty: 0, amount: 0 },
-					thirdPrize: { bounty: 0, amount: 0 },
-					isSubmitted: false,
+					prizes: [
+						{ place: 1, reward: 0, quantity: 0 },
+						{ place: 2, reward: 0, quantity: 0 },
+						{ place: 3, reward: 0, quantity: 0 },
+					],
+					is_submitted: false,
 				},
 			],
-			isSubmitted: false,
+			is_submitted: false,
 		},
 	],
-	judge: [
+	judges: [
 		{
 			name: '',
 			role: '',
 			email: '',
 			wallet: '',
-			avatarImage: '',
-			isSubmitted: false,
+			avatar: '',
+			is_submitted: false,
 		},
 	],
 	schedule: {
-		registerStart: getCurrentDate(),
-		registerEnd: getCurrentDate(),
-		submissionStart: getCurrentDate(),
-		submissionEnd: getCurrentDate(),
-		resultAnnouncement: getCurrentDate(),
-		isSubmitted: false,
+		registration_start: getCurrentDate(),
+		registration_end: getCurrentDate(),
+		submission_start: getCurrentDate(),
+		submission_end: getCurrentDate(),
+		result_announcement: getCurrentDate(),
+		is_submitted: false,
 	},
-	overview: '',
+	description: {
+		hackathon_name: '',
+		hackathon_description: '',
+		hackathon_place: '',
+		hackathon_overview: '',
+	},
 };
 
 export const createHackathonSlice = createSlice({
@@ -108,27 +117,29 @@ export const createHackathonSlice = createSlice({
 			state,
 			action: PayloadAction<{ index: number; sponsor: Sponsor }>,
 		) => {
-			state.sponsor[action.payload.index] = action.payload.sponsor;
+			state.sponsors[action.payload.index] = action.payload.sponsor;
 		},
 		addNewSponsor: (state) => {
-			state.sponsor = [
-				...state.sponsor,
+			state.sponsors = [
+				...state.sponsors,
 				{
-					name: '',
-					prizePool: 0,
-					walletAddress: '',
-					logoImage: '',
+					sponsor_name: '',
+					prize_pool: 0,
+					wallet: '',
+					logo: '',
 					track: [
 						{
-							name: '',
+							track_name: '',
 							description: '',
-							firstPrize: { bounty: 0, amount: 0 },
-							secondPrize: { bounty: 0, amount: 0 },
-							thirdPrize: { bounty: 0, amount: 0 },
-							isSubmitted: false,
+							prizes: [
+								{ place: 1, reward: 0, quantity: 0 },
+								{ place: 2, reward: 0, quantity: 0 },
+								{ place: 3, reward: 0, quantity: 0 },
+							],
+							is_submitted: false,
 						},
 					],
-					isSubmitted: false,
+					is_submitted: false,
 				},
 			];
 		},
@@ -143,24 +154,26 @@ export const createHackathonSlice = createSlice({
 			}>,
 		) => {
 			const tempTrack = [
-				...state.sponsor[action.payload.sponsorIndex].track,
+				...state.sponsors[action.payload.sponsorIndex].track,
 			];
 
 			tempTrack[action.payload.trackIndex] = action.payload.track;
 
-			state.sponsor[action.payload.sponsorIndex].track = tempTrack;
+			state.sponsors[action.payload.sponsorIndex].track = tempTrack;
 		},
 
 		addNewTrack: (state, action: PayloadAction<number>) => {
-			state.sponsor[action.payload].track = [
-				...state.sponsor[action.payload].track,
+			state.sponsors[action.payload].track = [
+				...state.sponsors[action.payload].track,
 				{
-					name: '',
+					track_name: '',
 					description: '',
-					firstPrize: { bounty: 0, amount: 0 },
-					secondPrize: { bounty: 0, amount: 0 },
-					thirdPrize: { bounty: 0, amount: 0 },
-					isSubmitted: false,
+					prizes: [
+						{ place: 1, reward: 0, quantity: 0 },
+						{ place: 2, reward: 0, quantity: 0 },
+						{ place: 3, reward: 0, quantity: 0 },
+					],
+					is_submitted: false,
 				},
 			];
 		},
@@ -171,19 +184,19 @@ export const createHackathonSlice = createSlice({
 			state,
 			action: PayloadAction<{ index: number; judge: Judge }>,
 		) => {
-			state.judge[action.payload.index] = action.payload.judge;
+			state.judges[action.payload.index] = action.payload.judge;
 		},
 
 		addNewJudge: (state) => {
-			state.judge = [
-				...state.judge,
+			state.judges = [
+				...state.judges,
 				{
 					name: '',
 					role: '',
 					email: '',
 					wallet: '',
-					avatarImage: '',
-					isSubmitted: false,
+					avatar: '',
+					is_submitted: false,
 				},
 			];
 		},
@@ -193,9 +206,9 @@ export const createHackathonSlice = createSlice({
 			state.schedule = action.payload;
 		},
 
-		// Overview
-		addOverview: (state, action: PayloadAction<string>) => {
-			state.overview = action.payload;
+		// Description
+		submitDescription: (state, action: PayloadAction<Description>) => {
+			state.description = action.payload;
 		},
 	},
 });
@@ -205,7 +218,7 @@ export const {
 	addNewTrack,
 	addNewJudge,
 	addSchedule,
-	addOverview,
+	submitDescription,
 	addNewSponsor,
 	submitTrack,
 	submitJudge,

@@ -1,3 +1,4 @@
+import { submitPoint } from '@/contract';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
 	Box,
@@ -22,11 +23,17 @@ import { useState } from 'react';
 export default function ScoreSubmitForm({
 	isOpen,
 	onClose,
+	data,
 }: {
 	isOpen: any;
 	onClose: any;
+	data: any;
 }) {
 	const [score, setScore] = useState<number>(1);
+
+	const handleClick = () => {
+		submitPoint({ ...data, point: score });
+	};
 
 	return (
 		<Modal
@@ -106,6 +113,7 @@ export default function ScoreSubmitForm({
 					<Button
 						variant='solid'
 						colorScheme='teal'
+						onClick={handleClick}
 					>
 						Submit
 					</Button>

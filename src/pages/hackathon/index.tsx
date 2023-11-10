@@ -36,7 +36,6 @@ export default function Hackathon() {
 			await axios
 				.request(config)
 				.then((response) => {
-					console.log(response.data.message)
 					setHackthonList(response.data.message);
 				})
 				.catch((error) => {
@@ -71,10 +70,13 @@ export default function Hackathon() {
 									p={0}
 									size={'lg'}
 								>
-									Name
+									{hackathon.description.hackathon_name}
 								</Heading>
 								<Text color={'blackAlpha.600'}>
-									Short description
+									{
+										hackathon.description
+											.hackathon_description
+									}
 								</Text>
 							</CardHeader>
 							<CardBody
@@ -89,7 +91,7 @@ export default function Hackathon() {
 									From
 								</Heading>
 								<Text color={'blackAlpha.600'}>
-									{hackathon.registration_start}
+									{hackathon.schedule.registration_start}
 								</Text>
 								<Heading
 									m={0}
@@ -99,7 +101,7 @@ export default function Hackathon() {
 									To
 								</Heading>
 								<Text color={'blackAlpha.600'}>
-									{hackathon.result_announce}
+									{hackathon.schedule.result_announcement}
 								</Text>
 								<Heading
 									m={0}
@@ -109,7 +111,7 @@ export default function Hackathon() {
 									Place
 								</Heading>
 								<Text color={'blackAlpha.600'}>
-									Lisbon, Portugal
+									{hackathon.description.hackathon_place}
 								</Text>
 							</CardBody>
 							<CardFooter

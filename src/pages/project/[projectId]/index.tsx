@@ -31,7 +31,6 @@ export default function ProjectDetail() {
 	const router = useRouter();
 	const { projectId } = router.query;
 	const [projectDetail, setProjectDetail] = useState<any>();
-
 	const renderTab = (tab: string) => {
 		switch (tab) {
 			case 'overview':
@@ -47,7 +46,6 @@ export default function ProjectDetail() {
 	};
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
-
 	useEffect(() => {
 		if (projectId) {
 			const fetchData = async () => {
@@ -205,6 +203,12 @@ export default function ProjectDetail() {
 			<ScoreSubmitForm
 				isOpen={isOpen}
 				onClose={onClose}
+				data={{
+					track_id: projectDetail?.track_id,
+					attendee_id: projectDetail?.team_name,
+					hackathon_id: projectDetail?.hackathon_id,
+					project_id: projectDetail?.project_name,
+				}}
 			/>
 		</Container>
 	);

@@ -21,7 +21,7 @@ export default function SponsorStep() {
 	};
 
 	const sponsorCardList = useSelector(
-		(state: RootState) => state.createHackthon.sponsor,
+		(state: RootState) => state.createHackthon.sponsors,
 	);
 
 	return (

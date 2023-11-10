@@ -2,13 +2,14 @@ import { useDefaultLayout } from '@/hooks/useLayout';
 import { Button, ButtonGroup, Container, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import SponsorStep from '../../components/pages/create-hackathon/SponsorStep';
-import TrackStep from '../../components/pages/create-hackathon/TrackStep';
-import ScheduleStep from '../../components/pages/create-hackathon/ScheduleStep';
 import JudgeStep from '../../components/pages/create-hackathon/JudgeStep';
 import DescriptionStep from '@/components/pages/create-hackathon/DescriptionStep';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import axios from 'axios';
+import TrackStep from '@/components/pages/create-hackathon/TrackStep';
+import ScheduleStep from '@/components/pages/create-hackathon/ScheduleStep';
 
 export default function CreateHackathon() {
 	const [step, setStep] = useState<number>(1);
@@ -18,8 +19,28 @@ export default function CreateHackathon() {
 		(state: RootState) => state.createHackthon,
 	);
 
-	const submitHackathon = () => {
-		console.log(createHackathonData);
+	const submitHackathon = async () => {
+		const nearWallet = JSON.parse(
+			localStorage.getItem('near_app_wallet_auth_key') as string,
+		);
+		const submitData = {
+			creator: nearWallet.accountId,
+			...createHackathonData,
+		};
+
+		const config = {
+			method: 'post',
+			maxBodyLength: Infinity,
+			url: `${process.env.API_URL}/api/hackathon/create`,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			data: JSON.stringify(submitData),
+		};
+		
+		await axios.request(config).catch((error) => {
+			console.log(error);
+		});
 	};
 
 	const nextStep = () => {
@@ -33,15 +54,15 @@ export default function CreateHackathon() {
 	const renderStep = (step: number) => {
 		switch (step) {
 			case 1:
-				return <SponsorStep />;
-			case 2:
-				return <TrackStep />;
-			case 3:
-				return <JudgeStep />;
-			case 4:
-				return <ScheduleStep />;
-			case 5:
 				return <DescriptionStep />;
+			case 2:
+				return <SponsorStep />;
+			case 3:
+				return <TrackStep />;
+			case 4:
+				return <JudgeStep />;
+			case 5:
+				return <ScheduleStep />;
 			default:
 				break;
 		}

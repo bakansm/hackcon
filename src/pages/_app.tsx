@@ -16,6 +16,8 @@ import { useHashUrlBackwardsCompatibility } from '@/hooks/useHashUrlBackwardsCom
 import type { NextPageWithLayout } from '@/utils/types';
 import { Provider } from 'react-redux';
 import { store } from '@/redux/store';
+import { useEffect } from 'react';
+import { Wallet } from '../../near-wallet';
 
 const VmInitializer = dynamic(() => import('../components/vm/VmInitializer'), {
 	ssr: false,

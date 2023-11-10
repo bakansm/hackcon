@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
 	Accordion,
 	AccordionButton,
@@ -24,13 +23,13 @@ export default function TrackStep() {
 
 	const getTrackList = (index: number) => {
 		const trackList = useSelector(
-			(state: RootState) => state.createHackthon.sponsor[index].track,
+			(state: RootState) => state.createHackthon.sponsors[index].track,
 		);
 		return trackList;
 	};
 
 	const sponsorList = useSelector(
-		(state: RootState) => state.createHackthon.sponsor,
+		(state: RootState) => state.createHackthon.sponsors,
 	);
 
 	return (
@@ -49,7 +48,7 @@ export default function TrackStep() {
 								fontWeight={'semibold'}
 								fontSize={'xl'}
 							>
-								{sponsor.name}
+								{sponsor.sponsor_name}
 							</Box>
 							<AccordionIcon />
 						</AccordionButton>
