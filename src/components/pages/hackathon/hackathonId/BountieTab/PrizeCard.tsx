@@ -31,7 +31,7 @@ export default function PrizeCard({ prize }: { prize: any }) {
 			case 3:
 				return '3rd';
 			default:
-				return `${prizePosition}th`;
+				return `{prizePosition}th`;
 		}
 	};
 
@@ -81,7 +81,7 @@ export default function PrizeCard({ prize }: { prize: any }) {
 					mb={0}
 					p={0}
 				>
-					$ {prize.reward.toLocaleString()}
+					{prize.reward.toLocaleString()} NEAR
 				</Text>
 				<Text
 					color={'blackAlpha.500'}

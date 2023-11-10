@@ -22,17 +22,15 @@ export default function SponsorCard({
 	cardData: Sponsor;
 	index: number;
 }) {
-	const [name, setName] = useState<string>(cardData.name);
-	const [prizePool, setPrizePool] = useState<number>(cardData.prizePool);
-	const [walletAddress, setWalletAddress] = useState<string>(
-		cardData.walletAddress,
-	);
-	const [logoImage, setLogoImage] = useState<string>(cardData.logoImage);
+	const [name, setName] = useState<string>(cardData.sponsor_name);
+	const [prizePool, setPrizePool] = useState<number>(cardData.prize_pool);
+	const [walletAddress, setWalletAddress] = useState<string>(cardData.wallet);
+	const [logoImage, setLogoImage] = useState<string>(cardData.logo);
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm<Sponsor>();
 
 	const isSubmitted = useSelector(
-		(state: RootState) => state.createHackthon.sponsor[index].isSubmitted,
+		(state: RootState) => state.createHackthon.sponsors[index].is_submitted,
 	);
 
 	const onSubmit: SubmitHandler<Sponsor> = (data) => {
@@ -44,24 +42,29 @@ export default function SponsorCard({
 						...data,
 						track: [
 							{
-								name: '',
+								track_name: '',
 								description: '',
-								firstPrize: {
-									bounty: 0,
-									amount: 0,
-								},
-								secondPrize: {
-									bounty: 0,
-									amount: 0,
-								},
-								thirdPrize: {
-									bounty: 0,
-									amount: 0,
-								},
-								isSubmitted: false,
+								prizes: [
+									{
+										place: 1,
+										reward: 0,
+										quantity: 0,
+									},
+									{
+										place: 2,
+										reward: 0,
+										quantity: 0,
+									},
+									{
+										place: 3,
+										reward: 0,
+										quantity: 0,
+									},
+								],
+								is_submitted: false,
 							},
 						],
-						isSubmitted: true,
+						is_submitted: true,
 					},
 				}),
 			);
@@ -73,24 +76,29 @@ export default function SponsorCard({
 						...data,
 						track: [
 							{
-								name: '',
+								track_name: '',
 								description: '',
-								firstPrize: {
-									bounty: 0,
-									amount: 0,
-								},
-								secondPrize: {
-									bounty: 0,
-									amount: 0,
-								},
-								thirdPrize: {
-									bounty: 0,
-									amount: 0,
-								},
-								isSubmitted: false,
+								prizes: [
+									{
+										place: 1,
+										reward: 0,
+										quantity: 0,
+									},
+									{
+										place: 2,
+										reward: 0,
+										quantity: 0,
+									},
+									{
+										place: 3,
+										reward: 0,
+										quantity: 0,
+									},
+								],
+								is_submitted: false,
 							},
 						],
-						isSubmitted: false,
+						is_submitted: false,
 					},
 				}),
 			);
@@ -132,7 +140,7 @@ export default function SponsorCard({
 							focusBorderColor='teal.500'
 							value={name}
 							disabled={isSubmitted}
-							{...register('name', {
+							{...register('sponsor_name', {
 								required: true,
 								onChange(event) {
 									setName(event.target.value);
@@ -151,7 +159,7 @@ export default function SponsorCard({
 							focusBorderColor='teal.500'
 							value={prizePool}
 							disabled={isSubmitted}
-							{...register('prizePool', {
+							{...register('prize_pool', {
 								required: true,
 								onChange(event) {
 									setPrizePool(event.target.value);
@@ -170,7 +178,7 @@ export default function SponsorCard({
 							focusBorderColor='teal.500'
 							value={walletAddress}
 							disabled={isSubmitted}
-							{...register('walletAddress', {
+							{...register('wallet', {
 								required: true,
 								onChange(event) {
 									setWalletAddress(event.target.value);
@@ -188,7 +196,7 @@ export default function SponsorCard({
 							type='text'
 							disabled={isSubmitted}
 							value={logoImage}
-							{...register('logoImage', {
+							{...register('logo', {
 								required: true,
 								onChange(event) {
 									setLogoImage(event.target.value);

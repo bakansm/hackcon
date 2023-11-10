@@ -15,15 +15,15 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function ScheduleStep() {
 	const dispatch = useDispatch();
 	const isSubmitted = useSelector(
-		(state: RootState) => state.createHackthon.schedule.isSubmitted,
+		(state: RootState) => state.createHackthon.schedule.is_submitted,
 	);
 
 	const { register, handleSubmit } = useForm<Schedule>();
 	const onSubmit: SubmitHandler<Schedule> = (data) => {
 		if (isSubmitted) {
-			dispatch(addSchedule({ ...data, isSubmitted: false }));
+			dispatch(addSchedule({ ...data, is_submitted: false }));
 		} else {
-			dispatch(addSchedule({ ...data, isSubmitted: true }));
+			dispatch(addSchedule({ ...data, is_submitted: true }));
 		}
 	};
 
@@ -45,7 +45,7 @@ export default function ScheduleStep() {
 							<Input
 								type='datetime-local'
 								disabled={isSubmitted}
-								{...register('registerStart', {
+								{...register('registration_start', {
 									required: true,
 								})}
 							/>
@@ -59,7 +59,7 @@ export default function ScheduleStep() {
 							<Input
 								type='datetime-local'
 								disabled={isSubmitted}
-								{...register('registerEnd', {
+								{...register('registration_end', {
 									required: true,
 								})}
 							/>
@@ -73,7 +73,7 @@ export default function ScheduleStep() {
 							<Input
 								type='datetime-local'
 								disabled={isSubmitted}
-								{...register('submissionStart', {
+								{...register('submission_start', {
 									required: true,
 								})}
 							/>
@@ -87,7 +87,7 @@ export default function ScheduleStep() {
 							<Input
 								type='datetime-local'
 								disabled={isSubmitted}
-								{...register('submissionEnd', {
+								{...register('submission_end', {
 									required: true,
 								})}
 							/>
@@ -101,7 +101,7 @@ export default function ScheduleStep() {
 							<Input
 								type='datetime-local'
 								disabled={isSubmitted}
-								{...register('resultAnnouncement', {
+								{...register('result_announcement', {
 									required: true,
 								})}
 							/>

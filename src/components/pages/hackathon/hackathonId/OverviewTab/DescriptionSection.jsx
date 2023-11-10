@@ -1,8 +1,7 @@
 import { VmComponent } from '@/components/vm/VmComponent';
 
 export default function DescriptionSection({ data }) {
-	// const code = `return (<Markdown text={${data}} />)`;
-	const code = `return (<Markdown text={'# Hello World'} />)`;
+	const code = `return (<Markdown text={${data}} />)`;
 
 	return (
 		<VmComponent

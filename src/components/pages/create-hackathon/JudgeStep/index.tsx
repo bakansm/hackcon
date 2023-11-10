@@ -21,7 +21,7 @@ export default function SponsorStep() {
 	};
 
 	const judgeList = useSelector(
-		(state: RootState) => state.createHackthon.judge,
+		(state: RootState) => state.createHackthon.judges,
 	);
 
 	return (

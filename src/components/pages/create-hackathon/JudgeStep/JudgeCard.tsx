@@ -24,29 +24,28 @@ export default function JudgeCard({
 	const [email, setEmail] = useState<string>(judgeData.email);
 	const [wallet, setWallet] = useState<string>(judgeData.wallet);
 	const [avatarImage, setAvatarImage] = useState<string>(
-		judgeData.avatarImage,
+		judgeData.avatar,
 	);
 	const isSubmitted = useSelector(
-		(state: RootState) => state.createHackthon.judge[index].isSubmitted,
+		(state: RootState) => state.createHackthon.judges[index].is_submitted,
 	);
 
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm<Judge>();
 
 	const onSubmit: SubmitHandler<Judge> = (data) => {
-		console.log(data);
 		if (isSubmitted) {
 			dispatch(
 				submitJudge({
 					index: index,
-					judge: { ...data, isSubmitted: false },
+					judge: { ...data, is_submitted: false },
 				}),
 			);
 		} else {
 			dispatch(
 				submitJudge({
 					index: index,
-					judge: { ...data, isSubmitted: true },
+					judge: { ...data, is_submitted: true },
 				}),
 			);
 		}
@@ -142,7 +141,7 @@ export default function JudgeCard({
 							type='text'
 							focusBorderColor='teal.500'
 							value={avatarImage}
-							{...register('avatarImage', {
+							{...register('avatar', {
 								required: true,
 								onChange(event) {
 									setAvatarImage(event.target.value);

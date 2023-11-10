@@ -1,3 +1,4 @@
+import { VmComponent } from '@/components/vm/VmComponent';
 import { useDefaultLayout } from '@/hooks/useLayout';
 import {
 	Box,

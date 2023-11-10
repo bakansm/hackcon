@@ -9,7 +9,6 @@ import {
 import { useEffect, useState } from 'react';
 import { useDefaultLayout } from '@/hooks/useLayout';
 import SubmitProjectTab from '@/components/pages/hackathon/hackathonId/SubmitProjectTab';
-import DiscussTab from '@/components/pages/hackathon/hackathonId/DiscussTab';
 import ScheduleTab from '@/components/pages/hackathon/hackathonId/ScheduleTab';
 import BountieTab from '@/components/pages/hackathon/hackathonId/BountieTab';
 import JudgeTab from '@/components/pages/hackathon/hackathonId/JudgeTab';
@@ -18,8 +17,9 @@ import SubmmitedProjectTab from '@/components/pages/hackathon/hackathonId/Submmi
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import changeISOtoUTC from '@/utils/changeISOtoUTC';
+import ResultTab from '@/components/pages/hackathon/hackathonId/ResultTab';
 
-const tabList = ['overview', 'judge', 'bountie', 'schedule', 'discuss'];
+const tabList = ['overview', 'judge', 'bountie', 'schedule', 'result'];
 
 export default function HackathonDetail() {
 	const router = useRouter();
@@ -46,7 +46,7 @@ export default function HackathonDetail() {
 
 				await axios
 					.request(config)
-					.then((response) => {
+					.then((response: any) => {
 						setHackathonDetail(response.data.message);
 					})
 					.catch((error) => {
@@ -80,55 +80,59 @@ export default function HackathonDetail() {
 							{
 								title: 'Register starts',
 								date: changeISOtoUTC(
-									hackathonDetail.registration_start,
+									hackathonDetail?.schedule
+										.registration_start,
 								).date,
 								time: changeISOtoUTC(
-									hackathonDetail.registration_start,
+									hackathonDetail?.schedule
+										.registration_start,
 								).time,
 							},
 							{
 								title: 'Register ends',
 								date: changeISOtoUTC(
-									hackathonDetail.registration_end,
+									hackathonDetail?.schedule.registration_end,
 								).date,
 								time: changeISOtoUTC(
-									hackathonDetail.registration_end,
+									hackathonDetail?.schedule.registration_end,
 								).time,
 							},
 							{
 								title: 'Submission starts',
 								date: changeISOtoUTC(
-									hackathonDetail.submission_start,
+									hackathonDetail?.schedule.submission_start,
 								).date,
 								time: changeISOtoUTC(
-									hackathonDetail.submission_start,
+									hackathonDetail?.schedule.submission_start,
 								).time,
 							},
 							{
 								title: 'Submission ends',
 								date: changeISOtoUTC(
-									hackathonDetail.submission_end,
+									hackathonDetail?.schedule.submission_end,
 								).date,
 								time: changeISOtoUTC(
-									hackathonDetail.submission_end,
+									hackathonDetail?.schedule.submission_end,
 								).time,
 							},
 							{
 								title: 'Results Announced',
 								date: changeISOtoUTC(
-									hackathonDetail.result_announce,
+									hackathonDetail?.schedule
+										.result_announcement,
 								).date,
 								time: changeISOtoUTC(
-									hackathonDetail.result_announce,
+									hackathonDetail?.schedule
+										.result_announcement,
 								).time,
 							},
 						]}
 					/>
 				);
-			case 'discuss':
-				return <DiscussTab />;
+			case 'result':
+				return <ResultTab hackathonId={hackathonId as string} />;
 			case 'submit-project':
-				return <SubmitProjectTab />;
+				return <SubmitProjectTab data={hackathonDetail?.sponsors} />;
 			case 'submitted-project':
 				return <SubmmitedProjectTab />;
 			default:

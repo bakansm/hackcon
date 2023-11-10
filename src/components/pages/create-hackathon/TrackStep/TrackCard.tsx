@@ -1,4 +1,8 @@
-import { Track, submitTrack } from '@/redux/slicers/createHackathonSlice';
+import {
+	Prize,
+	Track,
+	submitTrack,
+} from '@/redux/slicers/createHackathonSlice';
 import { RootState } from '@/redux/store';
 import {
 	Button,
@@ -24,31 +28,22 @@ export default function TrackCard({
 }) {
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm<Track>();
-	const [name, setName] = useState<string>(trackData?.name);
+	const [name, setName] = useState<string>(trackData?.track_name);
 
 	const [description, setDescription] = useState<string>(
 		trackData?.description,
 	);
 
-	const [firstPrize, setFirstPrize] = useState<{
-		bounty: number;
-		amount: number;
-	}>(trackData?.firstPrize);
+	const [firstPrize, setFirstPrize] = useState<Prize>(trackData?.prizes[0]);
 
-	const [secondPrize, setSecondPrice] = useState<{
-		bounty: number;
-		amount: number;
-	}>(trackData?.secondPrize);
+	const [secondPrize, setSecondPrice] = useState<Prize>(trackData?.prizes[1]);
 
-	const [thirdPrize, setThirdPrize] = useState<{
-		bounty: number;
-		amount: number;
-	}>(trackData?.thirdPrize);
+	const [thirdPrize, setThirdPrize] = useState<Prize>(trackData?.prizes[2]);
 
 	const isSubmitted = useSelector(
 		(state: RootState) =>
-			state.createHackthon.sponsor[sponsorIndex].track[trackIndex]
-				.isSubmitted,
+			state.createHackthon.sponsors[sponsorIndex].track[trackIndex]
+				.is_submitted,
 	);
 
 	const onSubmit: SubmitHandler<Track> = (data) => {
@@ -59,10 +54,24 @@ export default function TrackCard({
 					trackIndex: trackIndex,
 					track: {
 						...data,
-						isSubmitted: true,
-						firstPrize: firstPrize,
-						secondPrize: secondPrize,
-						thirdPrize: thirdPrize,
+						is_submitted: true,
+						prizes: [
+							{
+								place: firstPrize.place,
+								reward: firstPrize.reward,
+								quantity: firstPrize.quantity,
+							},
+							{
+								place: secondPrize.place,
+								reward: secondPrize.reward,
+								quantity: secondPrize.quantity,
+							},
+							{
+								place: thirdPrize.place,
+								reward: thirdPrize.reward,
+								quantity: thirdPrize.quantity,
+							},
+						],
 					},
 				}),
 			);
@@ -73,10 +82,24 @@ export default function TrackCard({
 					trackIndex: trackIndex,
 					track: {
 						...data,
-						isSubmitted: false,
-						firstPrize: firstPrize,
-						secondPrize: secondPrize,
-						thirdPrize: thirdPrize,
+						is_submitted: false,
+						prizes: [
+							{
+								place: firstPrize.place,
+								reward: firstPrize.reward,
+								quantity: firstPrize.quantity,
+							},
+							{
+								place: secondPrize.place,
+								reward: secondPrize.reward,
+								quantity: secondPrize.quantity,
+							},
+							{
+								place: thirdPrize.place,
+								reward: thirdPrize.reward,
+								quantity: thirdPrize.quantity,
+							},
+						],
 					},
 				}),
 			);
@@ -101,7 +124,7 @@ export default function TrackCard({
 							mb={'1rem'}
 							value={name}
 							focusBorderColor='teal.500'
-							{...register('name', {
+							{...register('track_name', {
 								required: true,
 								onChange(event) {
 									setName(event.target.value);
@@ -142,13 +165,14 @@ export default function TrackCard({
 						<Input
 							type='number'
 							focusBorderColor='teal.500'
-							value={firstPrize?.bounty}
+							value={firstPrize?.reward}
 							onChange={(
 								event: ChangeEvent<HTMLInputElement>,
 							) => {
 								setFirstPrize({
-									bounty: Number(event.target.value),
-									amount: firstPrize.amount,
+									place: 1,
+									reward: Number(event.target.value),
+									quantity: firstPrize.quantity,
 								});
 							}}
 						/>
@@ -162,13 +186,14 @@ export default function TrackCard({
 							type='number'
 							focusBorderColor='teal.500'
 							w={'4rem'}
-							value={firstPrize?.amount}
+							value={firstPrize?.quantity}
 							onChange={(
 								event: ChangeEvent<HTMLInputElement>,
 							) => {
 								setFirstPrize({
-									bounty: firstPrize.bounty,
-									amount: Number(event.target.value),
+									place: 1,
+									reward: firstPrize.reward,
+									quantity: Number(event.target.value),
 								});
 							}}
 						/>
@@ -187,13 +212,14 @@ export default function TrackCard({
 						<Input
 							type='number'
 							focusBorderColor='teal.500'
-							value={secondPrize?.bounty}
+							value={secondPrize?.reward}
 							onChange={(
 								event: ChangeEvent<HTMLInputElement>,
 							) => {
 								setSecondPrice({
-									bounty: Number(event.target.value),
-									amount: secondPrize.amount,
+									place: 2,
+									reward: Number(event.target.value),
+									quantity: secondPrize.quantity,
 								});
 							}}
 						/>
@@ -207,13 +233,14 @@ export default function TrackCard({
 							type='number'
 							focusBorderColor='teal.500'
 							w={'4rem'}
-							value={secondPrize?.amount}
+							value={secondPrize?.quantity}
 							onChange={(
 								event: ChangeEvent<HTMLInputElement>,
 							) => {
 								setSecondPrice({
-									bounty: secondPrize.bounty,
-									amount: Number(event.target.value),
+									place: 2,
+									reward: secondPrize.reward,
+									quantity: Number(event.target.value),
 								});
 							}}
 						/>
@@ -232,13 +259,14 @@ export default function TrackCard({
 						<Input
 							type='number'
 							focusBorderColor='teal.500'
-							value={thirdPrize?.bounty}
+							value={thirdPrize?.reward}
 							onChange={(
 								event: ChangeEvent<HTMLInputElement>,
 							) => {
 								setThirdPrize({
-									bounty: Number(event.target.value),
-									amount: thirdPrize.amount,
+									place: 3,
+									reward: Number(event.target.value),
+									quantity: thirdPrize.quantity,
 								});
 							}}
 						/>
@@ -252,13 +280,14 @@ export default function TrackCard({
 							type='number'
 							focusBorderColor='teal.500'
 							w={'4rem'}
-							value={thirdPrize?.amount}
+							value={thirdPrize?.quantity}
 							onChange={(
 								event: ChangeEvent<HTMLInputElement>,
 							) => {
 								setThirdPrize({
-									bounty: thirdPrize.bounty,
-									amount: Number(event.target.value),
+									place: 3,
+									reward: thirdPrize.reward,
+									quantity: Number(event.target.value),
 								});
 							}}
 						/>
